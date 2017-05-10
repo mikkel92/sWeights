@@ -125,35 +125,3 @@ def sWeights(F_sig,F_bkg,data,pars,bins):
 if __name__ == '__sWeights__':
     sys.exit( main() )
 
-import numpy as np
-
-def func_GEGG_sig(x,p) :
-    z0sig = (x[0] - p[1]) / p[2]
-    z1sig = (x[1] - p[3]) / p[4]
-    return 0.06*0.02*p[0] / np.sqrt(2.0*np.pi)/p[2] * np.exp(-0.5*z0sig*z0sig) / np.sqrt(2.0*np.pi)/p[4] * np.exp(-0.5*z1sig*z1sig)
-
-def func_GEGG_bkg(x,p) : 
-    z1bkg = (x[1] - p[2]) / p[3]
-    return 0.06*0.02*p[0] * p[1] * np.exp(-p[1]*x[0]) / np.sqrt(2.0*np.pi)/p[3] * np.exp(-0.5*z1bkg*z1bkg)
-
-def fsig(x,p):
-    z0sig = (x[0] - p[1]) / p[2]
-    return 0.02*p[0] / np.sqrt(2.0*np.pi)/p[2] * np.exp(-0.5*z0sig*z0sig)
-
-def fbkg(x,p):
-    return 0.02*p[0] * p[1] * np.exp(-p[1]*x[0])
-
-def sig2(x,p):
-    return p[0] * p[1] * np.exp(-p[1]*x[0])
-
-
-Data = np.loadtxt('output.txt', dtype='float')
-pars = ([5000.0,0.8,0.2,0.0,0.4],[10000.0,2.0,-1.0,0.6])
-sWeights(func_GEGG_sig,func_GEGG_bkg,Data,pars,50)
-
-pars = ([5000.0,0.8,0.2],[10000.0,2.0])
-sWeights(fsig,fbkg,Data[:,0:2],pars,50)
-
-Data = np.loadtxt('16var.txt', dtype='float')
-pars = ([10000.0,2.0],[10000.0,2.5])
-sWeights(sig2,sig2,Data[:,3:17],pars,50)
