@@ -26,8 +26,6 @@ width_bkg2 = 0.6
 
 
 SavePlots = False    
-verbose = True
-Nverbose = 10
 RunFast = False   # Fix PDF shape parameters to truth values!
 
 
@@ -89,11 +87,11 @@ def main() :
     x_all = np.concatenate((x_sig,x_bkg), axis=0)
 
     # Use data from a file? (Outcomment if you want to generate your own data)
-    Data = np.loadtxt('output.txt', dtype='float')
+    # Data = np.loadtxt('output.txt', dtype='float')
 
-    x_sig = Data[0:5000]
-    x_bkg = Data[5000:15000]
-    x_all = Data
+    # x_sig = Data[0:5000]
+    # x_bkg = Data[5000:15000]
+    # x_all = Data
 
     #np.savetxt('sWout.txt', x_all, fmt='%8.4f')
 
