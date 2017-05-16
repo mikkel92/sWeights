@@ -1,10 +1,11 @@
-# Functions: A list with functions. The PDFs defining the different signal/backgrounds in data. 
+# Functions: A list with functions. The PDFs defining the different signals/backgrounds in data. 
 # Assumues the first parameter (p[0]) to be the normalization. Needs to be of the form: f(x,p). 
 # Exponential example: f(x,p) = p[0]*p[1]*exp(-p[1]*x[0]), p[1] = 2.0; 
 # or f(x,p) = p[0]*2.0*exp(-2.0*x[0]). Only p[0] has to be a variable and inserted via {pars}.
 
 # data: Has to be an N*M+1 ndarray, N being the number of data points and M
-# being the number of dimensions. The last column is the data which needs to be seperated.
+# being the number of dimensions. The last column is the data which needs to be seperated
+# into different signals.
 
 # pars: Parameters found by fitting the input functions to data. Has to be an N*M ndarray,
 # N being the number of parameters for either function and M being the number of dimensions.
@@ -13,7 +14,7 @@
 # from functions on individual plots + individual contributions on a combined plot. 
 # If plot='Combined' only the combined plot is showed.
 
-# bins: The number of bins wanted on the plot and in the error calculation.
+# bins: The number of bins wanted on the plot and in the error calculation (default is 100).
 
 # write: If write='True' the sWeights are saved in a text file in the format N*M. N is the number of data points
 # and M is the number of signal types
@@ -21,7 +22,7 @@
 # save_err: If save_err='True' the errors calculated are saved to a text file in the format N*M
 # N is the number if bins chosen and M is the number of signal types
 
-def sWeights(Functions,data,pars,plot=False,bins=None,write=False,save_err=False):
+def sWeights(Functions,data,pars,plot=False,bins=100,write=False,save_err=False):
     
     import numpy as np
     from numpy import matrix
@@ -72,9 +73,6 @@ def sWeights(Functions,data,pars,plot=False,bins=None,write=False,save_err=False
     # ------------------------------------------------------------------- #
 
     # Making bins and steps for the plotting option
-    if bins == None:
-        bins = 100
-
     Bins = []
     Steps = []
     Less_Bins = False
