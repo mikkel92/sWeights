@@ -58,10 +58,7 @@ def sWeights(Functions,data,pars,plot=False,bins=None,write=False,save_err=False
                 iclist[j][k] += PDF1*PDF2 / den
         
     invcovmat = matrix( iclist )
-    
     covmat = invcovmat.I
-    print "Covarance matrix as obtained from direct calculation: "
-    print covmat
 
     # Calculating sWeights for each signal present in data
     sWeight = np.zeros([len(data),len(Functions)])
@@ -126,6 +123,7 @@ def sWeights(Functions,data,pars,plot=False,bins=None,write=False,save_err=False
             hist = np.histogram(data[:,-1],weights=sWeight[:,i],bins=Bins[-1])
             plt.hist(data[:,-1],bins=Bins[-1],stacked=False,histtype='step',linewidth=2.0,color='orange',label='Data')
             plt.errorbar(Steps[-1], hist[0],yerr=err[:,i],fmt='.',capsize=3,capthick=2,color=color[i],label=label)
+            plt.title('Test data')
             plt.xlabel('Value')
             plt.ylabel('Frequency')
             plt.legend()
@@ -138,6 +136,7 @@ def sWeights(Functions,data,pars,plot=False,bins=None,write=False,save_err=False
             plt.errorbar(Steps[-1], hist[0],yerr=err[:,i],fmt='.',capsize=3,capthick=2,color=color[i],label=label) 
             
         plt.hist(data[:,-1],bins=Bins[-1],stacked=False,histtype='step',linewidth=2.0,color='orange',label='Data')
+        plt.title('Test data')
         plt.xlabel('Value')
         plt.ylabel('Frequency')
         plt.legend()
@@ -152,6 +151,7 @@ def sWeights(Functions,data,pars,plot=False,bins=None,write=False,save_err=False
             plt.errorbar(Steps[-1], hist[0],yerr=err[:,i],fmt='.',capsize=3,capthick=2,color=color[i],label=label) 
             
         plt.hist(data[:,-1],bins=Bins[-1],stacked=False,histtype='step',linewidth=2.0,color='orange',label='Data')
+        plt.title('Test data')
         plt.xlabel('Value')
         plt.ylabel('Frequency')
         plt.legend()
