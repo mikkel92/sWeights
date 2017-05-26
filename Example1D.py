@@ -7,7 +7,7 @@ from scipy.stats import poisson
 
 # Import your data:
 
-Data = Data = GenData(Dim='1D')
+Data = GenData(Dim='1D')
 
 # bins for plotting
 bins = np.linspace(0.0,2.0,101)
@@ -19,7 +19,7 @@ binwidth = (bins[-1] - bins[0]) / (len(bins)-1)
 # Fit a PDF to the data using a likelihood fit (Binned likelihood here):
 # -------------------------------------------------------------------------- #
 
-# Define the binned likelihood function, which is an exponential background and gaussian signal in this case
+# Define the binned likelihood function, which includes a exponential background and gaussian signal in this case
 def Binlike_GaussExp(p,x):
         m = 0
         for i in range(0,len(x)):
@@ -41,8 +41,9 @@ plt.title('Data + best fit')
 plt.xlabel('Mass')
 plt.ylabel('Frequency')
 
-# Minimize the binned likelihood function to obtain the best fit values
+# initial guess on best values
 init_pars1 = [5000,0.8,0.2,10000,2.0]
+# Minimize the binned likelihood function to obtain the best fit values
 fit_mass = minimize(Binlike_GaussExp, init_pars1, args=(hist1[0],))
 print('1d fit parameters:')
 print(fit_mass.x)
@@ -64,21 +65,9 @@ def fbkg(x,p):
     return binwidth*p[0] * p[1] * np.exp(-p[1]*x[0])
 
 # Run the sWeights script using the best fit values as your {pars} input:
-# Notice how the values are seperated in signal and background in pars
+# Notice how the values are seperated in signal and background in {pars}
 pars = ([fit_mass.x[0],fit_mass.x[1],fit_mass.x[2]],[fit_mass.x[3],fit_mass.x[4]])
 sWeights((fsig,fbkg),Data,pars,plot='True')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Look in the General sWeights script to find information about input of the sWeights function
 
