@@ -1,4 +1,4 @@
-# Functions: A list with functions. The PDFs defining the different signals/backgrounds in data. 
+# Functions: A list with functions. The PDFs defining the different signals in data. 
 # Assumues the first parameter (p[0]) to be the normalization. Needs to be of the form: f(x,p). 
 # Exponential example: f(x,p) = p[0]*p[1]*exp(-p[1]*x[0]), p[1] = 2.0; 
 # or f(x,p) = p[0]*2.0*exp(-2.0*x[0]). Only p[0] has to be a variable and inserted via {pars}.
@@ -7,10 +7,10 @@
 # being the number of dimensions. The last column is the data which needs to be seperated
 # into different signals.
 
-# pars: Parameters found by fitting the input functions to data. Has to be an N*M ndarray,
-# N being the number of parameters for either function and M being the number of dimensions.
+# pars: Best fit values found by fitting a function to data. Has to be an N*M ndarray,
+# N being the number of parameters for either function and M being the number of signals.
 
-# plot: If plot='True' plots the last column in data in a histogram and shows the individual contributions
+# plot: If plot='True' plots the last column in the data given in a histogram and shows the individual contributions
 # from functions on individual plots + individual contributions on a combined plot. 
 # If plot='Combined' only the combined plot is showed.
 
@@ -20,7 +20,7 @@
 # and M is the number of signal types
 
 # save_err: If save_err='True' the errors calculated are saved to a text file in the format N*M
-# N is the number if bins chosen and M is the number of signal types
+# N is the number of bins chosen and M is the number of signal types
 
 def sWeights(Functions,data,pars,plot=False,bins=100,write=False,save_err=False):
     
@@ -35,7 +35,7 @@ def sWeights(Functions,data,pars,plot=False,bins=100,write=False,save_err=False)
     for i in range(0,np.shape(data)[1]-1):
         N_data += 'data[i][%d], ' %(i)
     
-    # Making a PDF for each dimension in data
+    # Making a PDF for each dimension in data (to be called later)
     PDF = []
     for i in range(0,len(Functions)):
         PDF.append('Functions[%d]( ([%s]) , pars[%d] ) / pars[%d][0]' %(i,N_data,i,i))
@@ -52,7 +52,7 @@ def sWeights(Functions,data,pars,plot=False,bins=100,write=False,save_err=False)
     # Caculation of elements in the inverse covariance matrix
     for j in range(0,len(Functions)):
         for k in range(0,len(Functions)):
-            for i in range(0,len(data)) :
+            for i in range(0,len(data)):
                 PDF1=eval(PDF[j])
                 PDF2=eval(PDF[k])
                 den = eval(denominator)**2
@@ -116,7 +116,7 @@ def sWeights(Functions,data,pars,plot=False,bins=100,write=False,save_err=False)
     if plot == 'True':
 
         for i in range(0,len(Functions)):
-            plt.figure(i)
+            plt.figure(i+1)
             label = 'Signal %d' %(i+1)
             hist = np.histogram(data[:,-1],weights=sWeight[:,i],bins=Bins[-1])
             plt.hist(data[:,-1],bins=Bins[-1],stacked=False,histtype='step',linewidth=2.0,color='orange',label='Data')
@@ -127,22 +127,10 @@ def sWeights(Functions,data,pars,plot=False,bins=100,write=False,save_err=False)
             plt.legend()
             plt.show(block=False)
 
-        plt.figure(len(Functions))
-        for i in range(0,len(Functions)):
-            label = 'Signal %d' %(i+1)
-            hist = np.histogram(data[:,-1],weights=sWeight[:,i],bins=Bins[-1])
-            plt.errorbar(Steps[-1], hist[0],yerr=err[:,i],fmt='.',capsize=3,capthick=2,color=color[i],label=label) 
-            
-        plt.hist(data[:,-1],bins=Bins[-1],stacked=False,histtype='step',linewidth=2.0,color='orange',label='Data')
-        plt.title('Test data')
-        plt.xlabel('Value')
-        plt.ylabel('Frequency')
-        plt.legend()
-        plt.show(block=False)
-
-    # Plotting only the combined image
-    if plot == 'Combined':
-
+    # Plotting the combined image
+    if plot == 'True' or plot == 'Combined':
+        
+        plt.figure(0)
         for i in range(0,len(Functions)):
             label = 'Signal %d' %(i+1)
             hist = np.histogram(data[:,-1],weights=sWeight[:,i],bins=Bins[-1])
@@ -167,5 +155,3 @@ def sWeights(Functions,data,pars,plot=False,bins=100,write=False,save_err=False)
 # ------------------------------------------------------------------------ #
 if __name__ == '__sWeights__':
     sys.exit( main() )
-
-
