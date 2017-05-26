@@ -31,7 +31,7 @@ binarea = binwidth0 * binwidth1
 def pois(n,x):
     return x**n*np.exp(-x)/math.factorial(n)
 
-# Define the binned likelihood function, which is an exponential background and gaussian 
+# Define the binned likelihood function, which includes a exponential background and gaussian 
 # signal in one dimension and a gaussian background + signal in the other dimension in this case:
 def BinLike_GEGG(p,x):
     m = 0
@@ -59,15 +59,16 @@ x, y = np.meshgrid(steps1, steps2)
 hist1 = np.histogram2d(Data[:,0], Data[:,1], bins=(bins1, bins2))
 hist1 = hist1[0].transpose() # Numpy lists the data from a wierd starting point
 
+
 # initial guess on best values
 init_pars = (5000.0,0.8,0.2,0.0,0.4,10000.0,2.0,-1.0,0.6)
 # Minimize the binned likelihood function to obtain the best fit values
-fit_2d = minimize(BinLike_GEGG, init_pars, args=(hist1,), method='SLSQP', options={'disp':True})
+fit_2d = minimize(BinLike_GEGG, init_pars, args=(hist1,), method='SLSQP')
 fit_2d = fit_2d.x
 print "2d fit parameters:"
 print(fit_2d)
 
-# Plot data in a histogram
+# Plot the data
 plt.imshow(hist1, interpolation='none', origin='left', extent=[bins1[0], bins1[-1], bins2[0], bins2[-1]], aspect='auto',cmap='terrain')
 plt.colorbar()
 plt.title('Data + best fit (shown as contours)')
@@ -94,12 +95,9 @@ def func_GEGG_background(x,p) :
     return p[0] * p[1] * np.exp(-p[1]*x[0]) / np.sqrt(2.0*np.pi)/p[3] * np.exp(-0.5*z1bkg*z1bkg)
 
 # Run the sWeights script using the best fit values as your {pars} input:
-# Notice how the values are seperated in signal and background in pars
+# Notice how the values are seperated in signal and background in {pars}
 pars = ([fit_2d[0],fit_2d[1],fit_2d[2],fit_2d[3],fit_2d[4]],[fit_2d[5],fit_2d[6],fit_2d[7],fit_2d[8]])
-sWeights((func_GEGG_signal,func_GEGG_background),Data,pars,plot='True')
+sWeights((func_GEGG_signal,func_GEGG_background),Data,pars,plot='True',bins=50)
 
-
-
-
-
+# Look in the General sWeights script to find information about input of the sWeights function
 
