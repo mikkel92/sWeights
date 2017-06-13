@@ -60,6 +60,7 @@ plt.show()
 def fsig(x,p):
     z0sig = (x - p[1]) / p[2]
     return binwidth*p[0] / np.sqrt(2.0*np.pi)/p[2] * np.exp(-0.5*z0sig*z0sig)
+    
 # Background PDF
 def fbkg(x,p):
     return binwidth*p[0] * p[1] * np.exp(-p[1]*x)

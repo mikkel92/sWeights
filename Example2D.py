@@ -89,6 +89,7 @@ def func_GEGG_signal(x,p) :
     z0sig = (x[0] - p[1]) / p[2]
     z1sig = (x[1] - p[3]) / p[4]
     return p[0] / np.sqrt(2.0*np.pi)/p[2] * np.exp(-0.5*z0sig*z0sig) / np.sqrt(2.0*np.pi)/p[4] * np.exp(-0.5*z1sig*z1sig)
+
 # Background PDF
 def func_GEGG_background(x,p) :
     z1bkg = (x[1] - p[2]) / p[3]
@@ -98,6 +99,7 @@ def func_GEGG_background(x,p) :
 # Notice how the values are seperated in signal and background in {pars}
 pars = ([fit_2d[0],fit_2d[1],fit_2d[2],fit_2d[3],fit_2d[4]]
         ,[fit_2d[5],fit_2d[6],fit_2d[7],fit_2d[8]])
+
 calc_sWeights((func_GEGG_signal,func_GEGG_background),pars,Data[:,0:2],Data[:,-1],plot='True',bins=50)
 
 # Look in the General sWeights script to find information about input of the sWeights function

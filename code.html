@@ -25,7 +25,8 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to sWeights’s documentation!" href="index.html" /> 
   </head>
   <body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -37,6 +38,9 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to sWeights’s documentation!"
+             accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">sWeights 1.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
@@ -49,8 +53,8 @@
   <div class="section" id="module-sWeightsGeneral">
 <span id="sweights"></span><h1>sWeights<a class="headerlink" href="#module-sWeightsGeneral" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
-<dt id="sWeightsGeneral.sWeights">
-<code class="descclassname">sWeightsGeneral.</code><code class="descname">sWeights</code><span class="sig-paren">(</span><em>Functions</em>, <em>data</em>, <em>pars</em>, <em>plot=False</em>, <em>bins=100</em>, <em>write=False</em>, <em>save_err=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sWeightsGeneral.sWeights" title="Permalink to this definition">¶</a></dt>
+<dt id="sWeightsGeneral.calc_sWeights">
+<code class="descclassname">sWeightsGeneral.</code><code class="descname">calc_sWeights</code><span class="sig-paren">(</span><em>Functions</em>, <em>pars</em>, <em>data</em>, <em>testdata</em>, <em>plot=False</em>, <em>bins=100</em>, <em>write=False</em>, <em>save_err=False</em><span class="sig-paren">)</span><a class="headerlink" href="#sWeightsGeneral.calc_sWeights" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculation of sWeights given data that is fitable by some function.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -58,8 +62,8 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Functions</strong> : list of callable functions</p>
 <blockquote>
-<div><p>The PDFs defining the different signals in data. 
-Assumes the first parameter (p[0]) to be the normalization. Needs to be of the form: f(x,p).</p>
+<div><p>The “PDFs” defining the different species in data. 
+Assumes the first parameter (p[0]) to be the scaling for the function to fit data (number of expected events). Needs to be of the form: f(x,p).</p>
 <blockquote>
 <div><ul class="simple">
 <li>example: f(x,p) = p[0] * p[1] * exp(-p[1] * x[0]), p[1] = 2.0 (p[1] inserted via <strong>pars</strong>); 
@@ -68,19 +72,23 @@ Only p[0] has to be a variable and inserted via <strong>pars</strong>.</li>
 </ul>
 </div></blockquote>
 </div></blockquote>
-<p><strong>data</strong> : An N*M+1 ndarray</p>
-<blockquote>
-<div><p>N is the number of data points and M the number of dimensions. 
-The last column is the data which needs to be seperated into different signals.</p>
-</div></blockquote>
 <p><strong>pars</strong> : Best fit values found by fitting <strong>Functions</strong> to data</p>
 <blockquote>
-<div><p>Has to be an N*M ndarray, N being the number of parameters for either function and M being the number of functions.</p>
-<p>A M dimensional fit is required if the data used has M dimensions.</p>
+<div><p>Has to be an N*M ndarray, N being the number of parameters for either function and M being the number of functions.
+A M dimensional fit is required if the data used has M dimensions.</p>
+</div></blockquote>
+<p><strong>data</strong> : An N*M ndarray</p>
+<blockquote>
+<div><p>N is the number of data points and M the number of dimensions.</p>
+</div></blockquote>
+<p><strong>testdata</strong> : N length vector</p>
+<blockquote>
+<div><p>Vector containing the data which needs to be seperated into different species.
+N is the number of data points.</p>
 </div></blockquote>
 <p><strong>plot</strong> : False, ‘True’ or ‘Combined’, optional</p>
 <blockquote>
-<div><p>If plot=’True’ plots the last column in the data given in a histogram and shows the individual contributions
+<div><p>If plot=’True’ plots the <strong>testdata</strong> a histogram and shows the individual contributions
 from functions on individual plots + individual contributions on a combined plot. 
 If plot=’Combined’ only the combined plot is shown.</p>
 </div></blockquote>
@@ -91,12 +99,12 @@ If plot=’Combined’ only the combined plot is shown.</p>
 <p><strong>write</strong> : False or ‘True’, optional</p>
 <blockquote>
 <div><p>If write=’True’ the sWeights are saved in a text file in the format N*M. N is the number of data points
-and M is the number of signal types</p>
+and M is the number of species.</p>
 </div></blockquote>
 <p><strong>save_err</strong> : False or ‘True’, optional</p>
 <blockquote>
 <div><p>If save_err=’True’ the errors calculated are saved to a text file in the format N*M
-N is the number of bins chosen and M is the number of signal types</p>
+N is the number of bins chosen and M is the number of species.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -118,6 +126,9 @@ N is the number of bins chosen and M is the number of signal types</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to sWeights’s documentation!</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -148,6 +159,9 @@ N is the number of bins chosen and M is the number of signal types</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to sWeights’s documentation!"
+             >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">sWeights 1.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>
