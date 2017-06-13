@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from GenerateData import GenData
-from sWeightsGeneral import sWeights
+from GenerateData import genData
+from sWeightsGeneral import calc_sWeights
 from scipy.optimize import minimize
 import math
 import warnings
@@ -9,7 +9,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # Generate your data: 
-Data = GenData(Dim='2D')
+Data = genData(Dim='2D')
 
 # bins for plotting
 bins1 = np.linspace(0.0,2.0,101)
@@ -96,8 +96,9 @@ def func_GEGG_background(x,p) :
 
 # Run the sWeights script using the best fit values as your {pars} input:
 # Notice how the values are seperated in signal and background in {pars}
-pars = ([fit_2d[0],fit_2d[1],fit_2d[2],fit_2d[3],fit_2d[4]],[fit_2d[5],fit_2d[6],fit_2d[7],fit_2d[8]])
-sWeights((func_GEGG_signal,func_GEGG_background),Data,pars,plot='True',bins=50)
+pars = ([fit_2d[0],fit_2d[1],fit_2d[2],fit_2d[3],fit_2d[4]]
+        ,[fit_2d[5],fit_2d[6],fit_2d[7],fit_2d[8]])
+calc_sWeights((func_GEGG_signal,func_GEGG_background),pars,Data[:,0:2],Data[:,-1],plot='True',bins=50)
 
 # Look in the General sWeights script to find information about input of the sWeights function
 

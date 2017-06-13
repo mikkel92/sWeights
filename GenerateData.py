@@ -1,6 +1,6 @@
 
 
-def GenData(Dim='1D'):
+def genData(Dim='1D'):
 
 	import numpy as np
 
@@ -15,13 +15,13 @@ def GenData(Dim='1D'):
 
 	def GetAngle2( A, omega, phi ) :
 	    if (abs(A) > 1.0) :
-		print("ERROR: A not in defined range: A = %6.2f" % (A))
-		return -999
+	        print("ERROR: A not in defined range: A = %6.2f" % (A))
+	        return -999
 	    x = -1.0 + 2.0 * np.random.rand()
 	    y = (1.0+abs(A)) * np.random.rand()
 	    while (y > oscdist(x, A, omega, phi)) :
-		x = -1.0 + 2.0 * np.random.rand()
-		y = (1.0+abs(A)) * np.random.rand()
+	        x = -1.0 + 2.0 * np.random.rand()
+	        y = (1.0+abs(A)) * np.random.rand()
 	    return x
 
 	np.random.seed(1)
@@ -86,7 +86,7 @@ def GenData(Dim='1D'):
 			b.append(np.random.randn()*0.6-1.0)
 		for i in range(0,Npoints3):
 			b.append(np.random.randn()*2.0+1.0)
-
+			
 		c = []
 		# two wave functions defined above and a constant
 		for i in range(0,Npoints1):
@@ -106,9 +106,9 @@ def GenData(Dim='1D'):
 			d.append(np.random.poisson(6.0,))
 
 		e = np.column_stack((a,b,c,d))
+		
 
-
-	np.savetxt('GenData.txt', e, fmt='%8.4f')
+	np.savetxt('genData.txt', e, fmt='%8.4f')
 
 	return(e)
 
