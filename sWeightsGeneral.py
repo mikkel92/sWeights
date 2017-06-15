@@ -122,12 +122,20 @@ def calc_sWeights(Functions,pars,data,testdata,plot=False,bins=100,write=False,s
 
         # Add contribution from this event to each covairance matrix element
         denom2 = np.square(denom[i_e]) # Only square once
-        for i_s_n in range(0,nSpecies): # TODO Use symmetry to speed up
+        for i_s_n in range(0,nSpecies):
             for i_s_j in range(0,nSpecies):
+                if i_s_n < i_s_j: break # Don't calculate where i_s_n < i_s_j because of covariance matrix symmetry
                 iclist[i_s_n,i_s_j] += ( pdfValue[i_s_n,i_e] * pdfValue[i_s_j,i_e] ) / denom2
 
-    # Invert to get covariance matrix
     iclist = matrix( iclist )
+
+    # Use symmetry to speed up covariance matrix calculation
+    for i_s_n in range(0,nSpecies):
+        for i_s_j in range(0,nSpecies):
+            if i_s_n >= i_s_j : continue
+            iclist[i_s_n,i_s_j] = iclist[i_s_j,i_s_n]
+
+    # Invert to get covariance matrix
     covMatrix = iclist.I
 
     print "\nCovariance matrix :\n%s" % covMatrix
